@@ -1,32 +1,40 @@
 
+import { useCallback, useState } from "react";
+
 import "./App.css";
+import Header from "./components/Header";
+import StatCard from "./components/StatCard";
+import TopologyCanvas from "./components/TopologyCanvas";
+
+export type NetworkDiagnostics = {
+  networkDevices: number;
+  connectivityTests: number;
+  detectedIssues: number;
+  lastConnectivityResult: string;
+};
 
 function App() {
+  const [diagnostics, setDiagnostics] = useState<NetworkDiagnostics>({
+    networkDevices: 0,
+    connectivityTests: 0,
+    detectedIssues: 0,
+    lastConnectivityResult: "",
+  });
+
+  const handleDiagnosticsChange = useCallback(
+    (nextDiagnostics: NetworkDiagnostics) => {
+      setDiagnostics(nextDiagnostics);
+    },
+    []
+  );
+
   return (
     <div className="app">
-      <header className="topbar">
-        <a className="brand" href="/">
-          <span className="brand-mark">L</span>
-          <span>LinkLogic</span>
-        </a>
-
-        <nav className="nav-links" aria-label="Main navigation">
-          <a href="#features">Features</a>
-          <a href="#workspace">Workspace</a>
-          <a href="#about">About</a>
-        </nav>
-
-        <span className="status">
-          <span className="status-dot" />
-          Frontend online
-        </span>
-      </header>
+      <Header />
 
       <main>
         <section className="hero" id="about">
-          <div className="eyebrow">
-            NETWORKING LEARNING LAB
-          </div>
+          <div className="eyebrow">NETWORKING LEARNING LAB</div>
 
           <h1>
             Design networks.
@@ -43,6 +51,7 @@ function App() {
             <a className="primary-button" href="#workspace">
               Explore the workspace <span aria-hidden="true">→</span>
             </a>
+
             <a className="secondary-button" href="#features">
               Discover features
             </a>
@@ -60,81 +69,76 @@ function App() {
               <p className="section-kicker">YOUR LAB</p>
               <h2>Network workspace</h2>
             </div>
-            <span className="preview-label">INITIAL PREVIEW</span>
+
+            <span className="preview-label">INTERACTIVE LAB</span>
           </div>
 
           <div className="workspace-grid">
             <article className="panel topology-panel">
               <div className="panel-heading">
                 <h3>Topology canvas</h3>
-                <span className="small-label">Preview</span>
+                <span className="small-label">Live workspace</span>
               </div>
 
-              <div className="topology-canvas">
-                <div className="network-line line-one" />
-                <div className="network-line line-two" />
-                <div className="network-line line-three" />
-
-                <div className="device device-pc">
-                  <span className="device-icon">PC</span>
-                  <strong>PC-01</strong>
-                  <small>192.168.1.10</small>
-                </div>
-
-                <div className="device device-switch">
-                  <span className="device-icon">SW</span>
-                  <strong>Switch-01</strong>
-                  <small>Layer 2</small>
-                </div>
-
-                <div className="device device-router">
-                  <span className="device-icon">R</span>
-                  <strong>Router-01</strong>
-                  <small>Gateway</small>
-                </div>
-              </div>
-
-              <p className="panel-footnote">
-                Static preview only — interactive topology editing comes later.
-              </p>
+              <TopologyCanvas
+                onDiagnosticsChange={handleDiagnosticsChange}
+              />
             </article>
 
-            <article className="panel diagnostics-panel" id="features">
+            <article
+              className="panel diagnostics-panel"
+              id="features"
+            >
               <div className="panel-heading">
-                <h3>Diagnostic overview</h3>
-                <span className="small-label">Demo data</span>
+                <div>
+                  <p className="section-kicker">NETWORK INSIGHTS</p>
+                  <h3>Diagnostic overview</h3>
+                </div>
+
+                <span className="small-label">Live overview</span>
               </div>
 
-              <div className="metric">
-                <div>
-                  <span className="metric-label">Network devices</span>
-                  <strong>03</strong>
-                </div>
-                <span className="metric-icon">◇</span>
-              </div>
+              <div className="diagnostic-cards">
+                <StatCard
+                  label="Network devices"
+                  value={String(diagnostics.networkDevices).padStart(2, "0")}
+                  icon="◇"
+                />
 
-              <div className="metric">
-                <div>
-                  <span className="metric-label">Connectivity tests</span>
-                  <strong>00</strong>
-                </div>
-                <span className="metric-icon">↗</span>
-              </div>
+                <StatCard
+                  label="Connectivity tests"
+                  value={String(diagnostics.connectivityTests).padStart(2, "0")}
+                  icon="↗"
+                />
 
-              <div className="metric">
-                <div>
-                  <span className="metric-label">Detected issues</span>
-                  <strong>00</strong>
-                </div>
-                <span className="metric-icon">!</span>
+                <StatCard
+                  label="Detected issues"
+                  value={String(diagnostics.detectedIssues).padStart(2, "0")}
+                  icon="!"
+                />
               </div>
 
               <div className="info-banner">
-                <strong>Ready to configure</strong>
+                <strong>
+                  {diagnostics.networkDevices === 0
+                    ? "Your network is empty"
+                    : diagnostics.detectedIssues === 0
+                      ? "No tracked issues detected"
+                      : "Review your network configuration"}
+                </strong>
+
                 <p>
-                  Add network devices and run connectivity checks when the
-                  simulator is implemented.
+                  {diagnostics.networkDevices} device(s) currently exist in
+                  your topology. {diagnostics.detectedIssues} issue finding(s)
+                  were detected by the overview checks.
                 </p>
+
+                {diagnostics.lastConnectivityResult && (
+                  <p role="status">
+                    <strong>Last connectivity test:</strong>{" "}
+                    {diagnostics.lastConnectivityResult}
+                  </p>
+                )}
               </div>
             </article>
           </div>
@@ -142,8 +146,10 @@ function App() {
       </main>
 
       <footer className="footer">
-        <span>LinkLogic · Network Design &amp; Troubleshooting Simulator</span>
-        <span>Day 02 · Frontend foundation</span>
+        <span>
+          LinkLogic · Network Design &amp; Troubleshooting Simulator
+        </span>
+        <span>Interactive networking lab</span>
       </footer>
     </div>
   );

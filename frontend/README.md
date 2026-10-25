@@ -1,32 +1,107 @@
-# React + TypeScript + Vite
+# LinkLogic - Network Design & Troubleshooting Simulator
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+LinkLogic is an interactive web application for designing network topologies, configuring network devices, testing connectivity, and identifying common networking configuration issues.
 
-Currently, two official plugins are available:
+The project combines networking concepts with full-stack development skills to create a practical virtual networking lab.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Features
 
-## React Compiler
+- **Interactive Network Topology:** Add and arrange network devices on a visual canvas.
+- **Network Devices:** Work with PCs, switches, and routers.
+- **Device Configuration:** Configure IPv4 addresses, subnet masks, and default gateways.
+- **Connectivity Testing:** Test connectivity between selected devices.
+- **Troubleshooting Guidance:** View guidance when connectivity tests fail or configuration problems are detected.
+- **Live Diagnostic Overview:** Monitor device counts, connectivity test counts, and detected issues.
+- **Network Validation:** Identify invalid configurations, duplicate IP addresses, and disconnected devices.
+- **Save and Load:** Save and restore network topologies.
+- **Import and Export:** Import and export supported topology data.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Technology Stack
 
-## Expanding the Oxlint configuration
+- React
+- TypeScript
+- Vite
+- React Flow (`@xyflow/react`)
+- CSS
+- Node.js and npm development tools
 
-If you are developing a production application, we recommend enabling type-aware lint rules by installing `oxlint-tsgolint` and editing `.oxlintrc.json`:
+## Getting Started
 
-```json
-{
-  "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["react", "typescript", "oxc"],
-  "options": {
-    "typeAware": true
-  },
-  "rules": {
-    "react/rules-of-hooks": "error",
-    "react/only-export-components": ["warn", { "allowConstantExport": true }]
-  }
-}
+### Prerequisites
+
+Install Node.js and npm on your computer.
+
+### Installation
+
+1. Clone this repository:
+
+   ```bash
+git clone https://github.com/sandunidilrukshi/LinkLogic.git   ```
+
+2. Navigate to the frontend directory:
+
+   ```bash
+   cd LinkLogic/frontend
+   ```
+
+3. Install dependencies:
+
+   ```bash
+   npm install
+   ```
+
+4. Start the development server:
+
+   ```bash
+   npm run dev
+   ```
+
+5. Open the local URL displayed in the terminal in your web browser.
+
+## Build and Quality Checks
+
+Run the production build:
+
+```bash
+npm run build
 ```
 
-See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.
+Run the project's lint checks:
+
+```bash
+npm run lint
+```
+
+## How to Use
+
+1. Open the LinkLogic workspace.
+2. Add network devices to the topology canvas.
+3. Select a device and configure its network settings.
+4. Connect devices to create a network topology.
+5. Select source and destination devices and run a connectivity test.
+6. Review the diagnostic overview and troubleshooting guidance.
+7. Save, load, import, or export your topology as needed.
+
+## Screenshots
+
+Screenshots of the application and its main features will be added here.
+
+Suggested screenshots:
+- Main workspace and topology canvas
+- Device configuration panel
+- Successful connectivity test
+- Failed connectivity test and troubleshooting guidance
+- Live diagnostic overview
+- Network validation results
+
+## Project Purpose
+
+LinkLogic is a networking and web development portfolio project. It demonstrates practical application of network topology concepts, IPv4 configuration, connectivity testing, and troubleshooting through an interactive user interface.
+
+## Current Status
+
+The project includes interactive topology design, device configuration, connectivity testing, diagnostic reporting, and topology save/load and import/export features.
+
+## Author
+
+Created as a networking and web development portfolio project.
